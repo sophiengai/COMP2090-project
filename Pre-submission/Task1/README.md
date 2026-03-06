@@ -24,10 +24,10 @@ MEMEBRS NAME (SID) :
 
 **TASK 1**
 [ Concepts will be Used ]
-- class& Object
+- Class & Object
 - Inheritance
 - Encapsulation
-- polymorphism
+- Polymorphism
 - Abstraction
 
 Preliminary code
