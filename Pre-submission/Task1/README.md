@@ -7,7 +7,16 @@ MEMEBRS NAME (SID) :
 2. LAM Wing Hei Sophie 14265664 
 3. POON Po Yee  13884023
 
-[ Project Introduction ]
+## Project Introduction
+
+### TASK 1 [ Concepts will be Used ]
+- Class & Object
+- Inheritance
+- Encapsulation
+- Polymorphism
+- Abstraction
+
+### [ Chosen topic ]
 
 *Library Management System*
 - This system allows students and stuff to manage books, handle borrowing and returning of books , also it can track the availability of books in the library.
@@ -21,11 +30,3 @@ MEMEBRS NAME (SID) :
 - Borrow books, return books, track due dates
 4. Availability Tracking
 - Check if a book is available or borrowed
-
-**TASK 1**
-[ Concepts will be Used ]
-- Class & Object
-- Inheritance
-- Encapsulation
-- Polymorphism
-- Abstraction
