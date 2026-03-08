@@ -1,4 +1,4 @@
-# COMP2090SEF GROUP PROJECT 
+#COMP2090SEF GROUP PROJECT 
 
 GRP_6
 
@@ -10,10 +10,6 @@ MEMEBRS NAME (SID) :
 [ Project Introduction ]
 
 **TASK 2**
-[ User Guide ]
-
-
-Preliminary code
-
-
-
+[ Chosen topic ]
+- Data structure: matrix
+- Algorithm: cocktail sort
