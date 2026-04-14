@@ -1,0 +1,143 @@
+from datetime import datetime, timedelta
+import data
+import bookfunction
+
+class Borrower:
+    def __init__(self, borrower_id):
+        self.borrower_id = borrower_id
+        self.borrowed_books = []
+
+    def borrow_avaliable(self):
+        print("Please enter the whole title of the book you want to borrow: ")
+        founder = input()
+        found = []
+        for book in data.books:
+            if founder in book["title"].lower():
+                target_book = book
+                found.append(book)
+        if len(found) > 1:
+            print("Incorrect title")
+            self.borrow_avaliable()
+        elif len(found) == 1:
+            self.borrow_book(target_book)
+        if book not in data.books:
+            print("Book unavailable or not found")
+
+    def borrow_book(self, target_book):
+        if target_book and target_book.is_available:
+            target_book.due_date = datetime.now() + timedelta(days=14)
+            self.borrowed_books.append(target_book)
+        
+            print("\nBooks borrowed:")
+            print("-"*60)
+            print(f"Borrowed: {target_book.title}")
+            print(f"Due: {target_book.due_date.strftime('%Y-%m-%d')}")
+            print("-"*40)
+
+            bookfunction.borrow(target_book)
+        
+    def return_avaliable(self):
+        print("Please enter the whole title of the book you want to return: ")
+        founder = input()
+        found = []
+        for book in data.books:
+            if founder in book["title"].lower(): 
+                target_book = book
+                found.append(book)
+        if len(found) > 1:
+            print("Incorrect title")
+            self.return_avaliable()
+        elif len(found) == 1:
+            self.return_book(target_book)
+        if book not in data.books:
+            print("Book unavailable or not found")
+
+    def return_book(self, target_book):
+        for book in self.borrowed_books:
+            if book == target_book:
+                self.borrowed_books.remove(target_book)
+                for book in data.books:
+                    if data.books["title"] == target_book:
+                        data.books["available_copies"] = int(data.books["avaliable_copies"]) + 1
+            bookfunction.return_book(target_book)
+            print(f"Returned: {target_book.title}")
+        else:
+            print("You do not borrowed this book")
+
+    def renew_avaliable(self):
+        print("Please enter the whole title of the book you want to borrow: ")
+        founder = input()
+        found = []
+        for book in data.books:
+            if founder in book["title"].lower():
+                target_book = book
+                found.append(book)
+        if len(found) > 1:
+            print("Incorrect title")
+            self.renew_avaliable()
+        elif len(found) == 1:
+            self.renew_book(target_book)
+        if book not in data.books:
+            print("Book unavailable or not found")
+
+    def renew_book(self, target_book):
+        for book in self.borrowed_books:
+            if book == target_book:
+                self.book.due_date = book.due_date + timedelta(days=7)
+                print(f"Renewed: {book.title} (New Due: {book.due_date.strftime('%Y-%m-%d')})")
+                break
+        if book not in self.borrowed_books:
+            print("Cannot renew (book not borrowed)")
+
+
+    def search_books(self):
+        print("\n--- Search Books ---")
+        keyword = input("Enter book title keyword or isbn: ").lower()
+        
+        found = []
+        for book in data.books:
+            if keyword in book["title"].lower() or keyword in book["author"].lower():
+                found.append(book)
+        
+        if found:
+            print("\nBooks found:")
+            print("-"*60)
+            for book in found:
+                print(f"ISBN: {book['isbn']}")
+                print(f"Title: {book['title']}")
+                print(f"Author: {book['author']}")
+                print(f"Available copies: {book['available_copies']}/{book['total_copies']}")
+                print(f"Location: {book['location']}")
+                print("-"*40)
+
+                if book['available_copies'] > 0:
+                    borrow_now = input("Do you want to borrow it now? (Yes/No)")
+                    while True:
+                        if borrow_now.lower() == "yes":
+                            target_book = book
+                            self.borrow_book(target_book)
+                        elif borrow_now.lower() == "no":
+                            break
+                        else:
+                            borrow_now = input("Do you want to borrow it now? (Yes/No)")
+                        
+        if book not in found:
+            print("No books found")
+            
+    def show_my_records(borrower_id):
+        print("\n--- My Borrowing Records ---")
+        my_records = data.get_borrow_records(borrower_id)
+        
+        if not my_records:
+            print("You have no borrowing records")
+            return
+        
+        for record in my_records:
+            book = data.find_book_by_isbn(record["isbn"])
+            book_title = book["title"] if book else "Unknown Book"
+            
+            print(f"Title: {book_title}")
+            print(f"Borrow Date: {record['borrow_date']}")
+            print(f"Due Date: {record['due_date']}")
+            print(f"Status: {record['status']}")
+            print("-"*30)
