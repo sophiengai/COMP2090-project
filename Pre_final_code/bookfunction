@@ -1,0 +1,27 @@
+class Book:
+    def __init__(self, **kwargs):
+        self.isbn = kwargs.get("isbn")
+        self.title = kwargs.get("title")
+        self.author = kwargs.get("author")
+        self.total_copies = kwargs.get("total_copies")
+        self.available_copies = kwargs.get("available_copies")
+        self.location = kwargs.get("location")
+        self.is_available = True
+        self.due_date = None 
+
+        if self.avaliable_copies <= 0:
+            self.is_avaliable = False
+        else:
+            self.is_available = True
+
+    def borrow(self):
+        self.available_copies -= 1
+        if self.available_copies <= 0:
+            self.is_available = False
+            return False
+        
+    def return_book(self):
+        if self.available_copies <= self.total_copies:
+            self.available_copies += 1
+            if self.available_copies >= 1:
+                self.is_available = True
