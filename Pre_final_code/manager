@@ -1,13 +1,53 @@
 import data
+from user import User
 
-class Manager:
-    def __init__(self):
+class Manager(User):
+    def __init__(self, user_id="manager"):
+        super().__init__(user_id)
         self.borrowers = []
         for i in range(len(data.borrowers)):
             self.borrowers.append(data.borrowers[i])
+
         self.books = []
         for j in range(len(data.books)):
             self.books.append(data.books[j])
+
+    def menu(self, user_id):
+        while True:
+            print("\n" + "-"*40)
+            print("    Manager Menu")
+            print("-"*40)
+            print("1. Add Book")
+            print("2. Delete Book")
+            print("3. Update Book Information")
+            print("4. Manage Borrower Information")
+            print("5. Back to Main Menu")
+            print("-"*40)
+            
+            choice = input("Please select (1-5): ")
+            
+            if choice == "1":
+                print("[Notice] Add Book function - Pending integration")
+                Add = Manager(user_id)
+                Add.add_books()
+            elif choice == "2":
+                print("[Notice] Delete Book function - Pending integration")
+                Delete = Manager(user_id)
+                Delete.delete_book_avaliable()
+            elif choice == "3":
+                print("[Notice] Update Book function - Pending integration")
+                Update = Manager(user_id)
+                Update.update_book_avaliable()
+            elif choice == "4":
+                print("[Notice] Manage Borrowers function - Pending integration")
+                Manage = Manager(user_id)
+                Manage.manage_borrower()
+            elif choice == "5":
+                break
+            else:
+                print("Invalid choice")
+            
+            input("Press Enter to continue...")
 
     def add_books(self):
         
@@ -19,10 +59,11 @@ class Manager:
             "available_copies": input("avaliable_copies:"),
             "location": input("location:")
         }
+
         self.books.append(newbook)
 
     def delete_book_avaliable(self):
-        print("Please enter the whole title of the book you want to delete: ")
+        print("Please enter the title of the book you want to delete: ")
         founder = input()
         found = []
         for book in data.books:
@@ -34,12 +75,12 @@ class Manager:
             self.delete_book_avaliable()
         elif len(found) == 1:
             self.delete_book(target_book)
-        if book not in data.books:
+        if found == []:
             print("Book unavailable or not found")
 
     def delete_book(self, target_book):
-        data.books.remove(target_book)
-        print(f"Book '{target_book.title}' deleted")
+        self.books.remove(target_book)
+        print(f"Book {target_book['title']} deleted")
 
     def update_book_avaliable(self):
         print("Please enter the whole title of the book you want to update: ")
@@ -54,7 +95,7 @@ class Manager:
             self.update_book_avaliable()
         elif len(found) == 1:
             self.update_book(target_book)
-        if book not in data.books:
+        if found == []:
             print("Book unavailable or not found")
 
     def update_book(self, target_book):
@@ -88,7 +129,9 @@ class Manager:
         else:
             print("Please enter the correct choice: ")
             self.update_book(target_book)
-        print(f"Book '{target_book.title}' updated")
+
+        if choice != 7:
+            print(f"Book {target_book['title']} updated")
 
     def add_borrower(self):
         
@@ -104,7 +147,7 @@ class Manager:
         for borrower in data.borrowers:
             target_borrower = borrower
         data.borrowers.remove(target_borrower)
-        print(f"Borrower '{target_borrower.id}' deleted")
+        print(f"Borrower {target_borrower['borrower_id']} deleted")
 
     def modify_borrower(self, target_borrower):
         for borrower in data.borrowers:
@@ -131,7 +174,8 @@ class Manager:
             print("Please enter the correct choice: ")
             self.modify_borrower(target_borrower)
         
-        print(f"Borrower '{target_borrower.borrower_id}' modified")
+        if choice != 4:
+            print(f"Borrower {target_borrower['borrower_id']} modified")
 
     def manage_borrower(self):
         print("\n" + "-"*40)
@@ -147,15 +191,23 @@ class Manager:
         elif choice == "2" or choice == "3":
             print("Please enter a borrower id to continue: ")
             id = input("")
-            if id in data.borrowers:
-                print("\n" + "-"*40)
-                print("    Borrower management Menu")
-                print("    Managing borrower", id)
-                print("-"*40)
+            target_borrower = None
+            #index = next((i for i, item in enumerate(data.borrowrs) if item.get('borrower_id') == id), None)
+            for i in range(len(data.borrowers)):
+                if id == data.borrowers[i]['borrower_id']:
+                    target_borrower = data.borrowers[i]
+                    if target_borrower != None:
+                        print("\n" + "-"*40)
+                        print("    Borro wer management Menu")
+                        print("    Managing borrower", id)
+                        print("-"*40)
+                    else:
+                        print("Invalid borrower id")
+                        break
             if choice == "2":
-                self.delete_borrower()
+                self.delete_borrower(target_borrower)
             else:
-                self.modify_borrower()
+                self.modify_borrower(target_borrower)
         elif choice == "4":
             pass
         else:
