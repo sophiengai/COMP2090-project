@@ -1,0 +1,6 @@
+class User:
+    def __init__(self, user_id):
+        self.usesr_id = user_id
+
+    def menu(self):
+        pass
