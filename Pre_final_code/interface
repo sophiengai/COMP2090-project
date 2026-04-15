@@ -114,7 +114,8 @@ def borrower_menu(borrower_id):
             Renew = borrower.Borrower(borrower_id)
             Renew.renew_avaliable()
         elif choice == "5":
-            borrower.show_my_records(borrower_id)
+            Show = borrower.Borrower
+            Show.show_my_records(borrower_id)
         elif choice == "6":
             break
         else:
