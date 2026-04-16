@@ -7,7 +7,7 @@ class Matrix:
         """
         if not data or not data[0]:
             raise ValueError("Matrix cannot be empty")
-        self.data = [row[:] for row in data]  # deep copy
+        self.data = [row[:] for row in data] 
         self.rows = len(data)
         self.cols = len(data[0])
         
